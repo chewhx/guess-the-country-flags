@@ -32,5 +32,15 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chewhx/guess-the-country-flags.git"
+  },
+  "author": "chewhx",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chewhx/guess-the-country-flags/issues"
+  },
+  "homepage": "https://github.com/chewhx/guess-the-country-flags#readme"
 }
