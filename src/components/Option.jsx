@@ -7,7 +7,7 @@ const Option = (props) => {
     type="button"
     id={props.id}
     onClick={props.onClick}
-    className="btn btn-info btn-block"
+    className="btn btn-danger"
     >
     {props.text}
     </button>

@@ -8,7 +8,7 @@ const Start = (props) => {
 
       <div className="row justify-content-md-center">
       <div className="col-md-auto">
-      <ul className="text-left">
+      <ul className="text-start">
         <li>Refresh to restart.</li>
         <li>No limits on number of rounds.</li>
         <li>Flags and options may repeat.</li>

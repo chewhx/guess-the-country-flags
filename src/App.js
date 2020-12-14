@@ -67,10 +67,11 @@ export default function App() {
         <div>
           GUESS THIS FLAG:<br />
           <Flag url={answerFlagUrl} width="80%" setMargin="30px" />
+          <div className="d-grid gap-2 mx-auto">
             {choices.map((item) => {
               return <Option text={_.toUpper(item)} onClick={checkAnswer} id={item} />;
             })}
-
+          </div>
 
         {attempts > 0 &&
           <Results
