@@ -1,92 +1,115 @@
-import React from "react";
-import "./styles.css";
-import wcc from "world-countries-capitals";
-import Flag from "./components/Flag";
-import Option from "./components/Option";
-import Results from "./components/Results"
-import Start from "./components/Start"
-import shuffle from "./shuffle"
-import _ from "lodash"
+import React, { useState } from 'react';
+import { BrowserRouter, Route } from 'react-router-dom'
 
-let score = 0
-let attempts = -1
+import './App.css'
+//import utils
+import wcc from 'world-countries-capitals';
+import shuffle from './components/utils/shuffle'
+//import sections
+import Results from './components/containers/results'
+import Question from './components/sections/question'
+import Header from './components/sections/header'
+//import pages
+import Start from './components/pages/start'
+import Game from './components/pages/game'
 
-export default function App() {
+let index = 0
 
-  let randomCountryDetails = [];
-  const [guessResult, setGuessResult] = React.useState("");
-  const [answer, setAnswer] = React.useState("");
-  const [prevAnswer, setPrevAnswer] = React.useState("");
-  const [answerFlagUrl, setAnswerFlagUrl] = React.useState("");
-  const [prevAnswerFlagUrl, setPrevAnswerFlagUrl] = React.useState("");
-  const [choices, setChoices] = React.useState([]);
-  const [state, setState] = React.useState(true);
+function App () {
 
-  function startRound () {
-    attempts++
-    const randomCountry = wcc.getRandomCountry()
-    randomCountryDetails = (wcc.getCountryDetailsByName(randomCountry));
-    setAnswer((prevAnswer)=>{
-      setPrevAnswer(prevAnswer)
-      setAnswer(randomCountryDetails[0].country)
-      setChoices(shuffle([
-        randomCountryDetails[0].country,
-        wcc.getRandomCountry(),
-        wcc.getRandomCountry(),
-        wcc.getRandomCountry()
-      ]))
+    const allCountries = shuffle(wcc.getAllCountries()).map(e => e.toUpperCase())
+
+    //wcc.getAllCountries returns a list of all the country names, in an Array
+
+    //shuffle() randomises the order of the list
+
+    //.map(e => e.toUpperCase()) capitalises each country name in the list
+
+    const [q, setQ] = useState({
+        answer: "",
+        options: [],
+        flag: "", 
+        guess: ""
     })
-    setAnswerFlagUrl((prevUrl)=> {
-      setPrevAnswerFlagUrl(prevUrl)
-      setAnswerFlagUrl(
-        _.replace(randomCountryDetails[0].flag, "h80", "w580")
-      )
+    
+    const [r, setR] = useState({
+        r: false,
+        pQ: {},
+        score: 0,
+        show: false
     })
-  }
 
-  function checkAnswer(event) {
-    let option = event.target.id;
-    if (option === answer){
-      setGuessResult("Correct")
-      score++
-    } else {
-      setGuessResult("Wrong")
+    //wcc.getRandomCountry()
+    //wcc.getNRandomCountriesData(amount)
+    //wcc.getCountryDetailsByName(answer)
+
+
+    const choose = (v) => {
+        const guess = v
+        setQ({...q, guess: guess})
     }
-  startRound()
-  }
 
-  function changeState() {
-    setState(!state)
-  }
 
-  return (
-    <div className="container">
-      {state && <Start functions={()=>{startRound(); changeState()}}/>}
+    const start = () => {
+        const answer = allCountries[index]
+        const options = shuffle([...wcc.getNRandomCountriesData(3).map(each=> each.country.toUpperCase()), answer])
 
-      {state ? null:
-        <div>
-          GUESS THIS FLAG:<br />
-          <Flag url={answerFlagUrl} width="80%" setMargin="30px" />
-          <div className="d-grid gap-2 mx-auto">
-            {choices.map((item) => {
-              return <Option text={_.toUpper(item)} onClick={checkAnswer} id={item} />;
-            })}
-          </div>
 
-        {attempts > 0 &&
-          <Results
-            PrevAnswerFlagUrl={prevAnswerFlagUrl}
-            attemptResult={_.toUpper(guessResult)}
-            prevAnswer={_.toUpper(prevAnswer)}
-            score={score}
-            attempts={attempts}
-          />
+        const countryDetails = (wcc.getCountryDetailsByName(answer));
+        const flag = countryDetails[0].flag
+        setQ({answer: answer, options: [...options], flag: flag, guess: null})
+    };
+
+    const check = () => {
+
+        if(q.guess === null) {
+            return
         }
 
-        </div>
+        index++
 
-      }
+        const i = q.guess
+        console.log("i: " + i);
+        const chosen = q.options[i]
+        console.log("chosen: " + chosen);
+        const answer = q.answer
+        console.log("answer: " + answer);
+        const result = chosen === answer
+        console.log("result: " + result);
 
-    </div>
-  );//return
-}//fn
+        if (result) {
+            setR({r: true, pQ: q, score: r.score+1, show: true})
+        } 
+        if (!result) {
+            setR({r: false, pQ: q, score: r.score, show: true})
+        }
+
+
+        start()
+        
+    };
+
+
+    return (
+        <>
+        <BrowserRouter>
+        <Header />
+        <Route exact path='/' render={ () => <Start start={start} /> } />
+        <Route
+        exact
+        path='/game'
+        render={ () => <Game 
+            q={q}
+            r={r}
+            choose={choose}
+            check={check}
+            index={index}/> 
+            }/>
+        
+        </BrowserRouter>
+        </>
+
+    )
+}; 
+
+export default App;

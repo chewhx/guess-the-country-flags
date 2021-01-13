@@ -1,4 +1,4 @@
-const shuffleArray = (array) => {
+const shuffle = (array) => {
 	for (let i = array.length - 1; i > 0; i--) {
 	  const j = Math.floor(Math.random() * i)
 	  const temp = array[i]
@@ -8,4 +8,4 @@ const shuffleArray = (array) => {
 	return array
 }
 
-export default shuffleArray
+export default shuffle
