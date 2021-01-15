@@ -6,7 +6,7 @@
 
 
 # Demo
-View demo [here](https://guess-the-country-flags.herokuapp.comhttps://guess-the-country-flags.herokuapp.com)
+View demo [here](https://guess-the-country-flags.herokuapp.com)
 
 # Screenshots
 
