@@ -2,11 +2,13 @@ import React from "react";
 
 const Flag = (props) => {
   return (
+    <>
     <img
-      style={{ height: props.height, width: props.width, margin: props.setMargin }}
-      src={props.url}
+      className="mb-3"
+      src={props.flag}
       alt="flag-img"
     />
+    </>
   );
 };
 
