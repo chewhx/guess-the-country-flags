@@ -3,28 +3,3 @@ body {
   font-family: "IBM Plex Sans", sans-serif;
   font-weight: 500;
 }
-
-h1 {
-  font-family: "IBM Plex Serif", sans-serif;
-  font-weight: 700;
-  line-height: 250%;
-}
-
-.container {
-  text-align: center;
-  padding-top: 50px;
-}
-
-.card {
-  margin-top: 20px;
-  padding: 2%;
-}
-
-.footer {
-  bottom: 0;
-  letter-spacing: 0em;
-  text-align: center;
-  padding-bottom: 39px;
-  padding-top: 39px;
-  width: 100%;
-}

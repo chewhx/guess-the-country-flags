@@ -12,8 +12,11 @@
     "node": "14.15.0"
   },
   "dependencies": {
+    "bootstrap": "^4.6.0",
     "react": "^17.0.0",
+    "react-bootstrap": "^1.5.2",
     "react-dom": "^17.0.0",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.1",
     "world-countries-capitals": "^3.4.0"
   },
