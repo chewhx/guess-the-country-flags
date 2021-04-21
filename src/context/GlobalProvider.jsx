@@ -99,9 +99,6 @@ const GlobalProvider = ({ children }) => {
     });
     initGameRound();
   };
-  console.log(listOfCountries);
-  console.log(currentQuestion);
-  console.log(results);
 
   return (
     <GlobalContext.Provider
