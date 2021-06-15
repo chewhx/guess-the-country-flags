@@ -10,7 +10,7 @@ const Header = () => {
       expand="lg"
       bg="light"
       variant="light"
-      className="mb-4"
+      className="mb-4 d-none d-md-flex"
     >
       <Navbar.Brand href="/">GUESS THE FLAG</Navbar.Brand>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />

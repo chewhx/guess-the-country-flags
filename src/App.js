@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import "./styles.css";
-import wcc from "world-countries-capitals";
+// import wcc from "world-countries-capitals";
 import shuffle from "./utils/shuffle";
 import { Route } from "react-router-dom";
 
@@ -8,6 +8,7 @@ import { Route } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Start from "./screens/Start";
+import Tabbar from "./components/Tabbar";
 
 import GlobalProvider, { GlobalContext } from "./context/GlobalProvider";
 import { Container } from "react-bootstrap";
@@ -22,6 +23,7 @@ const App = () => {
         <Route exact path={"/start"} component={Gameplay} />
       </Container>
       <Footer />
+      <Tabbar />
     </GlobalProvider>
   ); //return
 }; //fn

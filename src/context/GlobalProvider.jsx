@@ -49,7 +49,7 @@ const GlobalProvider = ({ children }) => {
     setCurrentQuestion((prevCurrentQuestion) => ({
       ...prevCurrentQuestion,
       answer: randomCountry.name,
-      flagUrl: `https://flagcdn.com/w320/${randomCountry.code}.jpg`,
+      flagUrl: `https://flagcdn.com/256x192/${randomCountry.code}.webp`,
       options: options,
     }));
   };
