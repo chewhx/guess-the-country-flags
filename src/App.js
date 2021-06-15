@@ -1,7 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
 import "./styles.css";
-import wcc from "world-countries-capitals";
-import shuffle from "./utils/shuffle";
 import { Route } from "react-router-dom";
 
 // Components
