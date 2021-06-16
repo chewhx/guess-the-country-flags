@@ -1,30 +1,49 @@
 import React, { useEffect, useState, useContext } from "react";
-import "./styles.css";
-// import wcc from "world-countries-capitals";
-import shuffle from "./utils/shuffle";
 import { Route } from "react-router-dom";
+import { Container } from "react-bootstrap";
 
 // Components
-import Header from "./components/Header";
+import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Start from "./screens/Start";
 import Tabbar from "./components/Tabbar";
+import useQuiz from "./hook/useQuiz";
 
-import GlobalProvider, { GlobalContext } from "./context/GlobalProvider";
-import { Container } from "react-bootstrap";
-import Gameplay from "./screens/Gameplay";
+import questions_ from "./data/questions.json";
+import optionsArray from "./data/optionsArray.json";
 
 const App = () => {
+  const [gameMode, setGameMode] = useState(false);
+
+  const memoFn = () => questions_;
+
+  let question_data = React.useMemo(memoFn, [memoFn]);
+
+  const quizInstance = useQuiz(question_data, {
+    shuffleOptions: true,
+    shuffleQuestions: true,
+    optionsArray: optionsArray,
+  });
+
   return (
-    <GlobalProvider>
-      <Header />
+    <>
+      <Navbar />
       <Container style={{ minHeight: "70vh" }}>
-        <Route exact path={"/"} component={Start} />
-        <Route exact path={"/start"} component={Gameplay} />
+        <Route
+          exact
+          path={"/"}
+          children={<Start gameMode={gameMode} quizInstance={quizInstance} />}
+        />
       </Container>
       <Footer />
-      <Tabbar />
-    </GlobalProvider>
+      <Tabbar
+        setGameMode={setGameMode}
+        gameMode={gameMode}
+        stats={quizInstance.stats}
+        remaining={quizInstance.questions.remaining}
+        reset={quizInstance.resetGame}
+      />
+    </>
   ); //return
 }; //fn
 

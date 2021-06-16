@@ -1,8 +1,7 @@
 .footer {
-  bottom: 0;
   letter-spacing: 0em;
   text-align: center;
-  padding-bottom: 39px;
+  padding-bottom: calc(10rem + env(safe-area-inset-bottom));
   padding-top: 39px;
   width: 100%;
 }

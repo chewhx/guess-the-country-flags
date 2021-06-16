@@ -1,14 +1,12 @@
 import { useState, useEffect } from "react";
+import randomSelect from "../utils/randomSelect";
 
 export default function Quiz(
   json,
-  options = {
-    shuffleQuestions: true,
-    shuffleOptions: false,
-    loop: true,
-  }
+  { shuffleQuestions, shuffleOptions, loop, optionsArray }
 ) {
   const [data, setData] = useState(json);
+  const [results, setResults] = useState([]);
   const [index, setIndex] = useState(0);
   const [prevIndex, setPrevIndex] = useState(0);
   const [nextIndex, setNextIndex] = useState(0);
@@ -37,38 +35,61 @@ export default function Quiz(
     return array;
   };
 
-  useEffect(() => {
+  const resetGame = () => {
     let newData = [];
-    if (options.shuffleQuestions) {
+
+    setResults([]);
+
+    setStats({
+      attempts: 0,
+      correct: 0,
+      incorrect: 0,
+    });
+
+    if (shuffleQuestions) {
       let arr = [];
       for (let i = 0; i < json.length; i++) {
         arr.push(i);
       }
 
       arr = shuffleArray(arr);
-      console.log(arr);
+
       let oldData = [...json];
       newData = arr.map((each) => oldData[each]);
       setData(newData);
     }
     setQuestions({
-      previous: options.loop ? data[data.length - 1] : null,
+      previous: loop ? data[data.length - 1] : null,
       current: newData[index] || data[index],
       next: newData[index + 1] || data[index + 1],
       hasNext: true,
       hasPrevious: false,
       total: data.length,
-      remaining: options.loop ? null : data.length - 1,
+      remaining: loop ? null : data.length - 1,
     });
-    if (options.loop) {
+    if (loop) {
       setPrevIndex(data.length - 1);
       setNextIndex(1);
     }
-  }, []);
+  };
 
+  useEffect(() => {
+    resetGame();
+  }, [json]);
+
+  const populateOptions = (num) => {
+    setData((prev) => {
+      for (let each of prev) {
+        const newOptions = [...randomSelect(optionsArray, 3), each.answer];
+        each.options = [...newOptions];
+        each.answer = newOptions.indexOf(each.answer);
+      }
+      return prev;
+    });
+  };
   const previousQuestion = () => {
     if (questions.previous === null) return false;
-    if (options.loop) {
+    if (loop) {
       setPrevIndex((prev) => {
         if (prev === 0) {
           return data.length - 1;
@@ -83,10 +104,10 @@ export default function Quiz(
       });
     }
     setIndex((prev) => {
-      if (prev === 0 && options.loop) {
+      if (prev === 0 && loop) {
         return data.length - 1;
       }
-      if (prev === 0 && !options.loop) {
+      if (prev === 0 && !loop) {
         return prev;
       } else {
         return prev - 1;
@@ -94,20 +115,20 @@ export default function Quiz(
     });
     setQuestions((prev) => ({
       ...prev,
-      previous: options.loop
+      previous: loop
         ? data[prevIndex - 1] || data[data.length - 1]
         : data[index - 2] || null,
       current: prev.previous,
       next: prev.current,
       hasNext: true,
       hasPrevious: data[index - 2] === undefined ? false : true,
-      remaining: options.loop ? null : prev.remaining + 1,
+      remaining: loop ? null : prev.remaining + 1,
     }));
   };
 
   const nextQuestion = () => {
     if (questions.next === null) return false;
-    if (options.loop) {
+    if (loop) {
       setNextIndex((prev) => {
         if (prev === data.length - 1) {
           return 0;
@@ -122,7 +143,7 @@ export default function Quiz(
       });
     }
     setIndex((prev) => {
-      if (prev === data.length - 1 && options.loop) {
+      if (prev === data.length - 1 && loop) {
         return 0;
       }
       if (prev === data.length - 1) {
@@ -135,29 +156,38 @@ export default function Quiz(
       ...prev,
       previous: prev.current,
       current: prev.next,
-      next: options.loop
-        ? data[nextIndex + 1] || data[0]
-        : data[index + 2] || null,
+      next: loop ? data[nextIndex + 1] || data[0] : data[index + 2] || null,
       hasPrevious: true,
       hasNext: data[index + 2] === undefined ? false : true,
-      remaining: options.loop ? null : prev.remaining - 1,
+      remaining: loop ? null : prev.remaining - 1,
     }));
   };
 
   // prevent double checks
   // stop checks if no more questions
   const checkAnswer = (number) => {
-    if (questions.current.checked === true) return false;
+    if ("correct" in questions.current) return false;
     const answer = questions.current.answer;
-    const isMatch = answer === number;
-    setQuestions((prev) => ({
-      ...prev,
-      current: {
-        ...prev.current,
-        checked: true,
-      },
-    }));
+    const isMatch = answer == number;
+
     if (isMatch) {
+      setQuestions((prev) => {
+        setResults((prevRes) => [
+          {
+            ...prev.current,
+            correct: true,
+          },
+          ...prevRes,
+        ]);
+
+        return {
+          ...prev,
+          current: {
+            ...prev.current,
+            correct: true,
+          },
+        };
+      });
       setStats((prev) => ({
         ...prev,
         attempts: (prev.attempts += 1),
@@ -165,6 +195,22 @@ export default function Quiz(
       }));
     }
     if (!isMatch) {
+      setQuestions((prev) => {
+        setResults((prevRes) => [
+          {
+            ...prev.current,
+            correct: false,
+          },
+          ...prevRes,
+        ]);
+        return {
+          ...prev,
+          current: {
+            ...prev.current,
+            correct: false,
+          },
+        };
+      });
       setStats((prev) => ({
         ...prev,
         attempts: (prev.attempts += 1),
@@ -178,11 +224,13 @@ export default function Quiz(
     index,
     prevIndex,
     nextIndex,
-    stats,
-    numOfQuestions: data.length,
-    checkAnswer,
-    nextQuestion,
-    previousQuestion,
     questions,
+    stats,
+    previousQuestion,
+    nextQuestion,
+    checkAnswer,
+    populateOptions,
+    results,
+    resetGame,
   };
 }

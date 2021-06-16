@@ -1,113 +1,115 @@
-import React, { useContext } from "react";
-import { Button, Container, Row, Col } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import { GlobalContext } from "../context/GlobalProvider";
+import React from "react";
+import {
+  Button,
+  Container,
+  Row,
+  Col,
+  Image,
+  Card,
+  ListGroup,
+} from "react-bootstrap";
 import useQuiz from "../hook/useQuiz";
 import data from "../data/data.json";
+import questions_ from "../data/questions.json";
+import optionsArray from "../data/optionsArray.json";
+import QuizImage from "../components/QuizImage";
+import QuizOptions from "../components/QuizOptions";
 
-const Start = () => {
-  const { initGameRound } = useContext(GlobalContext);
-
+const Start = ({ gameMode, quizInstance }) => {
   const {
-    stats,
-    nextQuestion,
-    previousQuestion,
-    checkAnswer,
-    questions,
     index,
     prevIndex,
     nextIndex,
-  } = useQuiz(data);
-  console.log(window.navigator.standalone);
-  return (
-    <Container fluid className="text-center w-75">
-      <Row>
-        <Col md={6} className="my-4">
-          <p>{window.navigator.standalone}</p>
-          <h3>Welcome to Guess The Flag</h3>
-          <p>There are 195 flags.</p>
-          <p>Your progress is not saved, currently.</p>
-          Flags images from <a href="https://flagpedia.net/">Flagpedia</a>
+    questions,
+    stats,
+    populateOptions,
+    nextQuestion,
+    checkAnswer,
+    results,
+  } = quizInstance;
+
+  React.useEffect(() => {
+    populateOptions(4);
+  }, []);
+
+  return questions.current === null ? (
+    "loading"
+  ) : (
+    <Container>
+      <Row className="mt-5">
+        <Col md={6} className="px-2 text-center">
+          <QuizImage
+            src={questions.current.question}
+            showAnswer={questions.current.hasOwnProperty("correct")}
+            correctAnswer={questions.current.correct}
+          />
+          <QuizOptions
+            hidden={!gameMode}
+            options={questions.current.options}
+            checkAnswer={checkAnswer}
+            nextQuestion={nextQuestion}
+          />
+          <QuizImage
+            hidden
+            src={questions.next.question}
+            showAnswer={questions.next.hasOwnProperty("correct")}
+            correctAnswer={questions.next.correct}
+          />
+          <QuizOptions
+            hidden
+            checkAnswer={checkAnswer}
+            nextQuestion={nextQuestion}
+          />
         </Col>
-        <Col md={6} className="my-auto">
-          <Link to={"/start"}>
-            <Button
-              block
-              size="lg"
-              variant="primary"
-              onClick={() => initGameRound()}
-            >
-              {`Start Game`}
-            </Button>
-          </Link>
-          <Button
-            block
-            size="lg"
-            variant="primary"
-            onClick={() => previousQuestion()}
-          >
-            Previous
-          </Button>
-          <Button
-            block
-            size="lg"
-            variant="primary"
-            onClick={() => nextQuestion()}
-          >
-            Next
-          </Button>
-          <Button
-            block
-            size="lg"
-            variant="primary"
-            onClick={() => console.log(checkAnswer(3))}
-          >
-            Check
-          </Button>
-        </Col>
-      </Row>
-      <Row>
-        <Col xs={12}>
-          <h2>previous index</h2>
-          <p>{JSON.stringify(prevIndex)}</p>
-          <h2>index</h2>
-          <p>{JSON.stringify(index)}</p>
-          <h2>next index</h2>
-          <p>{JSON.stringify(nextIndex)}</p>
-        </Col>
-        <Col xs={12}>
-          <h2>Prev</h2>
-          <p>{JSON.stringify(questions.previous)}</p>
-        </Col>
-        <Col xs={12}>
-          <h2>Current</h2>
-          <p>{JSON.stringify(questions.current)}</p>
-        </Col>
-        <Col xs={12}>
-          <h2>Next</h2>
-          <p>{JSON.stringify(questions.next)}</p>
-        </Col>
-        <Col xs={12}>
-          <p>
-            hasNext:
-            {JSON.stringify(questions.hasNext)}
-          </p>
-          <p>
-            hasPrevious:
-            {JSON.stringify(questions.hasPrevious)}
-          </p>
-          <p>
-            remaining:
-            {JSON.stringify(questions.remaining)}
-          </p>
-          <p>
-            total:
-            {JSON.stringify(questions.total)}
-          </p>
-          <p>
-            stats:
-            {JSON.stringify(stats)}
-          </p>
+        <Col md={6} className="px-2">
+          <Card border="light" style={{ height: "50vh", overflowY: "scroll" }}>
+            <ListGroup variant="flush" className="d-flex">
+              {results.length >= 1 ? (
+                results.map((each, idx) => (
+                  <ListGroup.Item
+                    key={`results-list-${idx}`}
+                    as="li"
+                    action
+                    className="p-3 alight-content-center"
+                  >
+                    <Row>
+                      <Col xs={2}>
+                        {each.correct ? (
+                          <i
+                            className="bi bi-check-circle-fill text-success "
+                            style={{ fontSize: "1.5rem" }}
+                          ></i>
+                        ) : (
+                          <i
+                            className="bi bi-x-circle-fill text-danger "
+                            style={{ fontSize: "1.5rem" }}
+                          ></i>
+                        )}
+                      </Col>
+                      <Col xs={3}>
+                        <Image fluid src={each.question} />
+                      </Col>
+                    </Row>
+                  </ListGroup.Item>
+                ))
+              ) : (
+                <Card.Body className="text-center">
+                  <p className="h2">
+                    <strong>Guess The Flags</strong>
+                  </p>
+                  <p className="h4">How many do you know?</p>
+                  <hr />
+                  <strong> Credits</strong>
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Eligendi quas vero dolor unde quod obcaecati quidem ducimus
+                    dicta ullam repellendus, excepturi, adipisci odio. Quos
+                    tempore pariatur dicta, delectus excepturi perspiciatis.
+                  </p>
+                </Card.Body>
+              )}
+            </ListGroup>
+          </Card>
         </Col>
       </Row>
     </Container>
