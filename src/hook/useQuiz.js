@@ -80,9 +80,12 @@ export default function Quiz(
   const populateOptions = (num) => {
     setData((prev) => {
       for (let each of prev) {
-        const newOptions = [...randomSelect(optionsArray, 3), each.answer];
-        each.options = [...newOptions];
-        each.answer = newOptions.indexOf(each.answer);
+        let threeNewOptions = [each.answer];
+        while (threeNewOptions.includes(each.answer)) {
+          threeNewOptions = randomSelect(optionsArray, 3);
+        }
+        each.options = shuffleArray([...threeNewOptions, each.answer]);
+        each.answer = each.options.indexOf(each.answer);
       }
       return prev;
     });

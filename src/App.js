@@ -25,9 +25,25 @@ const App = () => {
     optionsArray: optionsArray,
   });
 
+  const tabRef = React.useRef();
+
+  const hideTab = () => {
+    tabRef.current.style.bottom = "-90px";
+  };
+
+  const revealTab = () => {
+    tabRef.current.style.bottom = "0";
+  };
+
   return (
     <>
-      <Navbar />
+      <Navbar
+        setGameMode={setGameMode}
+        gameMode={gameMode}
+        stats={quizInstance.stats}
+        remaining={quizInstance.questions.remaining}
+        reset={quizInstance.resetGame}
+      />
       <Container style={{ minHeight: "70vh" }}>
         <Route
           exact
@@ -37,6 +53,9 @@ const App = () => {
       </Container>
       <Footer />
       <Tabbar
+        ref={tabRef}
+        hideTab={hideTab}
+        revealTab={revealTab}
         setGameMode={setGameMode}
         gameMode={gameMode}
         stats={quizInstance.stats}
