@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Route } from "react-router-dom";
 import { Container } from "react-bootstrap";
 
 // Components
@@ -45,11 +44,7 @@ const App = () => {
         reset={quizInstance.resetGame}
       />
       <Container style={{ minHeight: "70vh" }}>
-        <Route
-          exact
-          path={"/"}
-          children={<Start gameMode={gameMode} quizInstance={quizInstance} />}
-        />
+        <Start gameMode={gameMode} quizInstance={quizInstance} />
       </Container>
       <Footer />
       <Tabbar

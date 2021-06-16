@@ -1,6 +1,5 @@
 import React from "react";
 import { Navbar, Nav, Button, Row } from "react-bootstrap";
-import { Link } from "react-router-dom";
 
 const Tabbar = React.forwardRef(
   (

@@ -8,10 +8,6 @@ import {
   Card,
   ListGroup,
 } from "react-bootstrap";
-import useQuiz from "../hook/useQuiz";
-import data from "../data/data.json";
-import questions_ from "../data/questions.json";
-import optionsArray from "../data/optionsArray.json";
 import QuizImage from "../components/QuizImage";
 import QuizOptions from "../components/QuizOptions";
 
