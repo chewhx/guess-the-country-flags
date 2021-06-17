@@ -78,7 +78,10 @@ const App = () => {
         gameMode={gameMode}
         stats={quizInstance.stats}
         remaining={quizInstance.questions.remaining}
-        reset={quizInstance.resetGame}
+        reset={() => {
+          quizInstance.resetGame();
+          quizInstance.populateOptions();
+        }}
         setShow={setShow}
       />
     </CookiesProvider>

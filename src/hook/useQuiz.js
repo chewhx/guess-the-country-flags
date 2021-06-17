@@ -80,12 +80,12 @@ export default function Quiz(
   const populateOptions = (num) => {
     setData((prev) => {
       for (let each of prev) {
-        let threeNewOptions = [each.answer];
+        let threeNewOptions = randomSelect(optionsArray, 3);
         while (threeNewOptions.includes(each.answer)) {
           threeNewOptions = randomSelect(optionsArray, 3);
         }
         each.options = shuffleArray([...threeNewOptions, each.answer]);
-        each.answer = each.options.indexOf(each.answer);
+        each.answerIndex = each.options.indexOf(each.answer);
       }
       return prev;
     });
@@ -170,8 +170,8 @@ export default function Quiz(
   // stop checks if no more questions
   const checkAnswer = (number) => {
     if ("correct" in questions.current) return false;
-    const answer = questions.current.answer;
-    const isMatch = answer == number;
+    const answer = questions.current.answerIndex;
+    const isMatch = answer === number;
 
     if (isMatch) {
       setQuestions((prev) => {

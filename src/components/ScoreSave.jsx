@@ -21,17 +21,6 @@ const ScoreSave = ({ show, setShow, stats, reset, setGameMode }) => {
     }
   }, []);
 
-  const handleSubmit = (event) => {
-    const form = event.currentTarget;
-    console.log(form.checkValidity());
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-
-    setValidated(true);
-  };
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -76,6 +65,18 @@ const ScoreSave = ({ show, setShow, stats, reset, setGameMode }) => {
     }
   };
 
+  const handleSubmit = (event) => {
+    const form = event.currentTarget;
+
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    setValidated(true);
+    postToMongo();
+  };
+
   return (
     <>
       <Modal show={show} onHide={handleClose}>
@@ -88,7 +89,7 @@ const ScoreSave = ({ show, setShow, stats, reset, setGameMode }) => {
         </Modal.Header>
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
           <Modal.Body className="p-4">
-            <p className="h4 font-weight-bold">
+            <div className="h4 font-weight-bold">
               Hi. My name is
               <Form.Control
                 required
@@ -102,7 +103,7 @@ const ScoreSave = ({ show, setShow, stats, reset, setGameMode }) => {
               <Form.Control.Feedback type="invalid">
                 Hello...blank?
               </Form.Control.Feedback>
-            </p>
+            </div>
             <div className="h4 font-weight-bold">
               I'm from
               <Form.Control
@@ -142,25 +143,22 @@ const ScoreSave = ({ show, setShow, stats, reset, setGameMode }) => {
                 You'll need at least 1 point to submit score
               </p>
             )}
-            <Button variant="secondary" onClick={handleClose}>
-              Try harder
-            </Button>
-            {/* <Button
-            variant="primary"
-            onClick={handleClose}
-            disabled={stats.correct == 0 || stats.attempts == 0}
-            onClick={() => {
-              postToMongo()
-            }}
-            >
-            Submit
-          </Button> */}
-            <Button
-              type="submit"
-              disabled={stats.correct == 0 || stats.attempts == 0}
-            >
-              Submit
-            </Button>
+            <div>
+              <Button
+                variant="secondary"
+                onClick={handleClose}
+                className="ml-3"
+              >
+                Try harder
+              </Button>
+              <Button
+                type="submit"
+                disabled={stats.correct == 0 || stats.attempts == 0}
+                className="ml-3"
+              >
+                Submit
+              </Button>
+            </div>
           </Modal.Footer>
         </Form>
       </Modal>
