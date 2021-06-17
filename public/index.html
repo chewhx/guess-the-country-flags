@@ -6,11 +6,6 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta
-      name="apple-mobile-web-app-status-bar-style"
-      content="black-translucent"
-    />
 
     <!-- Bootstrap 4 -->
     <link
@@ -31,38 +26,91 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
     />
 
-    <link rel="manifest" href="http://flagcdn.com/24x18/sg.png" />
-    <link rel="shortcut icon" href="http://flagcdn.com/24x18/sg.png" />
-    <style>
-      body {
-        background-color: #f1f6f9;
-        font-family: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI",
-          Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans",
-          sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
-          "Noto Color Emoji";
-      }
-      .btn,
-      .btn-group-lg > .btn,
-      .btn-lg {
-        padding: 0.75rem 1rem;
-        border-radius: 1rem;
-      }
-      li {
-        margin: 0.25rem 0;
-      }
-    </style>
+    <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png" />
+    <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png" />
+    <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png" />
+    <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png" />
+    <link
+      rel="apple-touch-icon"
+      sizes="114x114"
+      href="/apple-icon-114x114.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="120x120"
+      href="/apple-icon-120x120.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="144x144"
+      href="/apple-icon-144x144.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="152x152"
+      href="/apple-icon-152x152.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/apple-icon-180x180.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="/android-icon-192x192.png"
+    />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
+    <meta name="theme-color" content="#ffffff" />
+
+    <!-- Apple Touch Icon (at least 200x200px) -->
+    <link rel="apple-touch-icon" href="/custom-icon.png" />
+
+    <!-- To run web application in full-screen -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+
+    <!-- Status Bar Style (see Supported Meta Tags below for available values) -->
+    <!-- Has no effect unless you have the previous meta tag -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://flagpopquiz.netlify.app/" />
+    <meta property="og:title" content="Guess The Flag Game" />
+    <meta
+      property="og:description"
+      content="Pop quiz. Guess which countries the flags belong to. What's your highest score?"
+    />
+    <meta property="og:site_name" content="Guess The Flag Game />
+    <meta property="og:locale" content="en_US" />
+    <!-- Next tags are optional but recommended -->
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:creator" content="@chewhx" />
+    <meta name="twitter:url" content="https://flagpopquiz.netlify.app/" />
+    <meta name="twitter:title" content="Content Title" />
+    <meta
+      name="twitter:description"
+      content="Pop quiz. Guess which countries the flags belong to. What's your highest score?"
+    />
+
+    <!-- Meta Description -->
+    <meta
+      name="description"
+      content="Pop quiz. Guess which countries the flags belong to. What's your highest score? Built with React."
+    />
 
     <title>GUESS THE COUNTRY FLAG</title>
   </head>
   <body>
     <div id="root"></div>
   </body>
-  <script>
-    if (document.webkitFullscreenElement) {
-      document.webkitCancelFullScreen();
-    } else {
-      const el = document.documentElement;
-      el.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
-    }
-  </script>
 </html>

@@ -1,5 +1,5 @@
 import React from "react";
-import { Navbar, Nav, Container, Button } from "react-bootstrap";
+import { Navbar, Nav, Container, Button, Image } from "react-bootstrap";
 import { useHistory, useLocation } from "react-router";
 
 const Navbar_ = ({
@@ -29,7 +29,10 @@ const Navbar_ = ({
     >
       <Container>
         <Navbar.Brand href="/">
-          <h3 className="font-weight-bolder">GUESS THE FLAG</h3>
+          <h3 className="font-weight-bolder">
+            <Image src="/favicon-32x32.png" />
+            &nbsp;GUESS THE FLAG
+          </h3>
         </Navbar.Brand>
         <p className="text-info h5">
           <strong>

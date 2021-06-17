@@ -28,6 +28,8 @@ const Start = ({ gameMode, quizInstance }) => {
     populateOptions(4);
   }, []);
 
+  console.log(questions.current);
+
   return questions.current === null ? (
     "loading"
   ) : (
@@ -76,7 +78,10 @@ const Start = ({ gameMode, quizInstance }) => {
                     as="li"
                     action
                     className="p-3 alight-content-center"
-                    style={{ fontSize: "1.25rem", overflow: "clip" }}
+                    style={{
+                      fontSize: "clamp(1.25rem, 5vw, 1.75rem)",
+                      overflow: "clip",
+                    }}
                   >
                     <Row>
                       <Col xs={2}>
@@ -90,9 +95,7 @@ const Start = ({ gameMode, quizInstance }) => {
                         <Image fluid src={each.question} />
                       </Col>
                       <Col xs={7}>
-                        <strong className="text-info">
-                          {each.options[each.answer]}
-                        </strong>
+                        <strong className="text-info">{each.answer}</strong>
                       </Col>
                     </Row>
                   </ListGroup.Item>
