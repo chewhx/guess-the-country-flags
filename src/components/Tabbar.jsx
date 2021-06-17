@@ -1,5 +1,6 @@
 import React from "react";
-import { Navbar, Nav, Button, Row } from "react-bootstrap";
+import { Navbar, Nav, Button } from "react-bootstrap";
+import { useHistory, useLocation } from "react-router-dom";
 
 const Tabbar = React.forwardRef(
   (
@@ -15,6 +16,8 @@ const Tabbar = React.forwardRef(
     },
     ref
   ) => {
+    const history = useHistory();
+    const { pathname } = useLocation();
     const scrollToTop = () => {
       window.scrollTo({
         top: 0,
@@ -24,9 +27,6 @@ const Tabbar = React.forwardRef(
     return (
       <Navbar
         ref={ref}
-        onClick={() => {
-          ref.current.style.bottom == "0px" ? hideTab() : revealTab();
-        }}
         className="d-sm-block d-md-none shadow-lg"
         bg="white"
         variant="white"
@@ -44,12 +44,45 @@ const Tabbar = React.forwardRef(
         }}
       >
         <Nav className="w-100 d-flex justify-content-around">
+          <p
+            onClick={() => {
+              ref.current.style.bottom == "0px" ? hideTab() : revealTab();
+            }}
+          >
+            <i className="bi bi-chevron-expand"></i>
+          </p>
+
           <p className="font-weight-bold">
             Score: {stats.correct || 0} / {stats.attempts}
           </p>
           <p className="font-weight-bold">Flags Remaining: {remaining} </p>
         </Nav>
         <Nav className="row w-100 d-flex justify-content-around">
+          {pathname === "/scoreboard" ? (
+            <Button
+              variant="link"
+              className="nav-link text-center col-3"
+              onClick={() => {
+                history.goBack();
+              }}
+            >
+              <i className="bi bi-chevron-left"></i>
+              <br />
+              <strong>Back</strong>
+            </Button>
+          ) : (
+            <Button
+              variant="link"
+              className="nav-link text-center col-3"
+              onClick={() => {
+                history.push("/scoreboard");
+              }}
+            >
+              <i className="bi bi-suit-spade-fill"></i>
+              <br />
+              <span>Scores</span>
+            </Button>
+          )}
           <Button
             variant="link"
             className="nav-link text-center col-3"
@@ -58,9 +91,9 @@ const Tabbar = React.forwardRef(
             }}
             disabled={!gameMode}
           >
-            <i className="bi bi-save2"></i>
+            <i className="bi bi-cloud-arrow-up-fill"></i>
             <br />
-            <span>Save</span>
+            <span>Submit</span>
           </Button>
           {gameMode ? (
             <Button
@@ -80,6 +113,7 @@ const Tabbar = React.forwardRef(
               variant="link"
               className="nav-link text-center col-3"
               onClick={() => {
+                history.push(`/`);
                 setGameMode(true);
                 scrollToTop();
               }}

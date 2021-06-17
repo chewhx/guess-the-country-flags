@@ -32,8 +32,11 @@ const Start = ({ gameMode, quizInstance }) => {
     "loading"
   ) : (
     <Container>
-      <Row className="mt-5">
+      <Row className="mt-md-5">
         <Col md={6} className="px-2 text-center">
+          <small className="text-muted">
+            If you exit page or refresh, game progress is lost.
+          </small>
           <QuizImage
             src={questions.current.question}
             showAnswer={questions.current.hasOwnProperty("correct")}
@@ -58,7 +61,21 @@ const Start = ({ gameMode, quizInstance }) => {
           />
         </Col>
         <Col md={6} className="px-2">
-          <Card border="light" style={{ height: "60vh", overflowY: "scroll" }}>
+          <Card
+            border="light"
+            style={{
+              height: "55vh",
+              overflowY: "scroll",
+            }}
+          >
+            <Card.Header className="bg-white d-none justify-content-between d-md-flex sticky-top">
+              <p className="text-info h5 my-2 font-weight-bold">
+                Score: {stats.correct || 0} / {stats.attempts || 0}
+              </p>
+              <p className="text-info h5 my-2 font-weight-bold">
+                <strong>Flags remaining: {stats.remaining || 0}</strong>
+              </p>
+            </Card.Header>
             <ListGroup variant="flush" className="d-flex">
               {results.length >= 1 ? (
                 results.map((each, idx) => (

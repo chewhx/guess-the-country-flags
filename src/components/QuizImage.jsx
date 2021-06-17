@@ -43,6 +43,7 @@ const FlagImage = ({ src, showAnswer, correctAnswer, ...rest }) => {
         src={src}
         {...rest}
       />
+
     </div>
   );
 };

@@ -1,7 +1,18 @@
 import React from "react";
 import { Navbar, Nav, Container, Button } from "react-bootstrap";
+import { useHistory, useLocation } from "react-router";
 
-const Navbar_ = ({ setGameMode, gameMode, stats, remaining, reset, setShow }) => {
+const Navbar_ = ({
+  setGameMode,
+  gameMode,
+  stats,
+  remaining,
+  reset,
+  setShow,
+}) => {
+  const history = useHistory();
+  const { pathname } = useLocation();
+
   return (
     <Navbar
       collapseOnSelect
@@ -18,58 +29,78 @@ const Navbar_ = ({ setGameMode, gameMode, stats, remaining, reset, setShow }) =>
     >
       <Container>
         <Navbar.Brand href="/">
-          <h2 className="font-weight-bolder">GUESS THE FLAG</h2>
+          <h3 className="font-weight-bolder">GUESS THE FLAG</h3>
         </Navbar.Brand>
-        <Nav
-          // className="d-flex justify-content-evenly"
-          style={{ flexDirection: "row" }}
-        >
-          <h5 className="ml-5">
-            <strong>
-              Score: {stats.correct || 0} / {stats.attempts || 0}
-            </strong>
-          </h5>
-          <h5 className="ml-5">
-            <strong>Flags remaining: {remaining || 0}</strong>
-          </h5>
-        </Nav>
+        <p className="text-info h5">
+          <strong>
+            Score: {stats.correct || 0} / {stats.attempts || 0}
+          </strong>
+        </p>
+        <p className="text-info h5">
+          <strong>Flags remaining: {remaining || 0}</strong>
+        </p>
         <Nav style={{ fontSize: "1.5rem" }}>
-          {gameMode ? (
+          <Button
+            size="lg"
+            variant="link"
+            className="text-center"
+            disabled={pathname === "/scoreboard"}
+            onClick={() => {
+              setGameMode(true);
+              reset();
+            }}
+          >
+            {gameMode ? (
+              <>
+                <i className="bi bi-arrow-clockwise"></i>
+                <br />
+                <strong>Restart</strong>
+              </>
+            ) : (
+              <>
+                <i className="bi bi-flag-fill"></i>
+                <br />
+                <strong>Start</strong>
+              </>
+            )}
+          </Button>
+          {pathname === "/scoreboard" ? (
             <Button
               size="lg"
               variant="link"
-              className="nav-link text-center  ml-3"
-              onClick={() => reset()}
-              disabled={!gameMode}
+              className="text-center"
+              onClick={() => {
+                history.goBack();
+              }}
             >
-              <i className="bi bi-arrow-clockwise"></i>
+              <i className="bi bi-chevron-left"></i>
               <br />
-              <strong>Restart</strong>
+              <strong>Back</strong>
             </Button>
           ) : (
             <Button
-              variant="link"
               size="lg"
-              className="nav-link text-center ml-3"
+              variant="link"
+              className="text-center"
               onClick={() => {
-                setGameMode(true);
+                history.push("/scoreboard");
               }}
             >
-              <i className="bi bi-flag-fill"></i>
+              <i className="bi bi-suit-spade-fill"></i>
               <br />
-              <strong>Start</strong>
+              <strong>Scores</strong>
             </Button>
           )}
           <Button
             size="lg"
             variant="link"
-            className="nav-link text-center  ml-3"
+            className="text-center"
             onClick={() => setShow(true)}
             disabled={!gameMode}
           >
-            <i className="bi bi-save2"></i>
+            <i className="bi bi-cloud-arrow-up-fill"></i>
             <br />
-            <strong>Save</strong>
+            <strong>Submit</strong>
           </Button>
         </Nav>
       </Container>

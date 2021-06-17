@@ -1,16 +1,21 @@
 import React, { useState } from "react";
+import { Route } from "react-router-dom";
 import { Container } from "react-bootstrap";
 
 // Components
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Start from "./screens/Start";
+import Scoreboard from "./screens/Scoreboard";
 import Tabbar from "./components/Tabbar";
 import ScoreSave from "./components/ScoreSave";
+import Topbar from "./components/Topbar";
 import useQuiz from "./hook/useQuiz";
 
 import questions_ from "./data/questions.json";
 import optionsArray from "./data/optionsArray.json";
+
+import { CookiesProvider } from "react-cookie";
 
 const App = () => {
   const [gameMode, setGameMode] = useState(false);
@@ -39,7 +44,8 @@ const App = () => {
   };
 
   return (
-    <>
+    <CookiesProvider>
+      <Topbar />
       <Navbar
         setGameMode={setGameMode}
         gameMode={gameMode}
@@ -49,7 +55,12 @@ const App = () => {
         setShow={setShow}
       />
       <Container style={{ minHeight: "70vh" }}>
-        <Start gameMode={gameMode} quizInstance={quizInstance} />
+        <Route exact path="/">
+          <Start gameMode={gameMode} quizInstance={quizInstance} />
+        </Route>
+        <Route exact path="/scoreboard">
+          <Scoreboard />
+        </Route>
         <ScoreSave
           setShow={setShow}
           show={show}
@@ -70,7 +81,7 @@ const App = () => {
         reset={quizInstance.resetGame}
         setShow={setShow}
       />
-    </>
+    </CookiesProvider>
   ); //return
 }; //fn
 

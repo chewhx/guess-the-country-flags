@@ -2,24 +2,35 @@ require("dotenv").config();
 const MongoClient = require("mongodb");
 const sanitize = require("mongo-sanitize");
 
-exports.handler = async function (e, context) {
-  // your server-side functionality
-  const body = sanitize(context);
-  MongoClient.connect(
-    process.env.MONGOURI,
-    { useUnifiedTopology: true },
-    (err, dbs) => {
-      if (err) console.error(err);
-      const db = dbs.db("unicorn").collection("flags");
+exports.handler = async (e, context) => {
+  try {
+    // your server-side functionality
 
-      db.insertOne(body, (err, res) => {
-        if (err) console.error(err);
-        dbs.close();
-        return {
-          statusCode: 200,
-          body: res,
-        };
-      });
+    if (e.httpMethod !== "POST") {
+      return {
+        statusCode: 400,
+        error: "Access denied",
+      };
     }
-  );
+
+    const body = JSON.parse(sanitize(e.body));
+
+    const dbs = await MongoClient.connect(process.env.MONGOURI, {
+      useUnifiedTopology: true,
+    });
+
+    const db = dbs.db("unicorn").collection("flags");
+
+    await db.insertOne(body);
+
+    dbs.close();
+    return {
+      statusCode: 201,
+    };
+  } catch (err) {
+    return {
+      statusCode: 500,
+      error: JSON.stringify(err),
+    };
+  }
 };
