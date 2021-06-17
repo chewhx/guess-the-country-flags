@@ -55,11 +55,11 @@ const App = () => {
         setShow={setShow}
       />
       <Container style={{ minHeight: "70vh" }}>
+        <Route path="/scoreboard">
+          <Scoreboard />
+        </Route>
         <Route exact path="/">
           <Start gameMode={gameMode} quizInstance={quizInstance} />
-        </Route>
-        <Route exact path="/scoreboard">
-          <Scoreboard />
         </Route>
         <ScoreSave
           setShow={setShow}

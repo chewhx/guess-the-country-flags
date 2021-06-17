@@ -68,14 +68,6 @@ const Start = ({ gameMode, quizInstance }) => {
               overflowY: "scroll",
             }}
           >
-            <Card.Header className="bg-white d-none justify-content-between d-md-flex sticky-top">
-              <p className="text-info h5 my-2 font-weight-bold">
-                Score: {stats.correct || 0} / {stats.attempts || 0}
-              </p>
-              <p className="text-info h5 my-2 font-weight-bold">
-                <strong>Flags remaining: {stats.remaining || 0}</strong>
-              </p>
-            </Card.Header>
             <ListGroup variant="flush" className="d-flex">
               {results.length >= 1 ? (
                 results.map((each, idx) => (
@@ -107,7 +99,7 @@ const Start = ({ gameMode, quizInstance }) => {
                 ))
               ) : (
                 <Card.Body className="text-center">
-                  <p className="h2">
+                  <p className="h2 mt-md-3">
                     <strong>Guess The Flags</strong>
                   </p>
                   <p className="h4">How many do you know?</p>
