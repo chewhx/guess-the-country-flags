@@ -15,7 +15,7 @@ exports.handler = async function (e, context) {
         dbs.close();
         return {
           statusCode: 200,
-          scores: res,
+          body: res,
         };
       });
     }
