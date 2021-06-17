@@ -1,7 +1,7 @@
 import React from "react";
 import { Navbar, Nav, Container, Button } from "react-bootstrap";
 
-const Navbar_ = ({ setGameMode, gameMode, stats, remaining, reset }) => {
+const Navbar_ = ({ setGameMode, gameMode, stats, remaining, reset, setShow }) => {
   return (
     <Navbar
       collapseOnSelect
@@ -34,29 +34,42 @@ const Navbar_ = ({ setGameMode, gameMode, stats, remaining, reset }) => {
           </h5>
         </Nav>
         <Nav style={{ fontSize: "1.5rem" }}>
-          <Button
-            variant="link"
-            size="lg"
-            className="nav-link text-center ml-3"
-            onClick={() => {
-              setGameMode(true);
-            }}
-            disabled={gameMode}
-          >
-            <i className="bi bi-flag-fill"></i>
-            <br />
-            <strong>Start</strong>
-          </Button>
+          {gameMode ? (
+            <Button
+              size="lg"
+              variant="link"
+              className="nav-link text-center  ml-3"
+              onClick={() => reset()}
+              disabled={!gameMode}
+            >
+              <i className="bi bi-arrow-clockwise"></i>
+              <br />
+              <strong>Restart</strong>
+            </Button>
+          ) : (
+            <Button
+              variant="link"
+              size="lg"
+              className="nav-link text-center ml-3"
+              onClick={() => {
+                setGameMode(true);
+              }}
+            >
+              <i className="bi bi-flag-fill"></i>
+              <br />
+              <strong>Start</strong>
+            </Button>
+          )}
           <Button
             size="lg"
             variant="link"
             className="nav-link text-center  ml-3"
-            onClick={() => reset()}
+            onClick={() => setShow(true)}
             disabled={!gameMode}
           >
-            <i className="bi bi-arrow-clockwise"></i>
+            <i className="bi bi-save2"></i>
             <br />
-            <strong>Restart</strong>
+            <strong>Save</strong>
           </Button>
         </Nav>
       </Container>

@@ -3,7 +3,16 @@ import { Navbar, Nav, Button, Row } from "react-bootstrap";
 
 const Tabbar = React.forwardRef(
   (
-    { gameMode, setGameMode, stats, remaining, reset, hideTab, revealTab },
+    {
+      gameMode,
+      setGameMode,
+      stats,
+      remaining,
+      reset,
+      hideTab,
+      revealTab,
+      setShow,
+    },
     ref
   ) => {
     const scrollToTop = () => {
@@ -41,37 +50,45 @@ const Tabbar = React.forwardRef(
           <p className="font-weight-bold">Flags Remaining: {remaining} </p>
         </Nav>
         <Nav className="row w-100 d-flex justify-content-around">
-          <Nav.Link className="text-center col-3" href="/">
-            <i className="bi bi-house-door-fill"></i>
-            <br />
-            <span>Home</span>
-          </Nav.Link>
           <Button
             variant="link"
             className="nav-link text-center col-3"
             onClick={() => {
-              setGameMode(true);
-              scrollToTop();
-            }}
-            disabled={gameMode}
-          >
-            <i className="bi bi-flag-fill"></i>
-            <br />
-            <span>Start</span>
-          </Button>
-          <Button
-            variant="link"
-            className="nav-link text-center col-3"
-            onClick={() => {
-              reset();
-              scrollToTop();
+              setShow(true);
             }}
             disabled={!gameMode}
           >
-            <i className="bi bi-arrow-clockwise"></i>
+            <i className="bi bi-save2"></i>
             <br />
-            <span>Restart</span>
+            <span>Save</span>
           </Button>
+          {gameMode ? (
+            <Button
+              variant="link"
+              className="nav-link text-center col-3"
+              onClick={() => {
+                reset();
+                scrollToTop();
+              }}
+            >
+              <i className="bi bi-arrow-clockwise"></i>
+              <br />
+              <span>Restart</span>
+            </Button>
+          ) : (
+            <Button
+              variant="link"
+              className="nav-link text-center col-3"
+              onClick={() => {
+                setGameMode(true);
+                scrollToTop();
+              }}
+            >
+              <i className="bi bi-flag-fill"></i>
+              <br />
+              <span>Start</span>
+            </Button>
+          )}
         </Nav>
       </Navbar>
     );

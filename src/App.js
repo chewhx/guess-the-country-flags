@@ -6,6 +6,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Start from "./screens/Start";
 import Tabbar from "./components/Tabbar";
+import ScoreSave from "./components/ScoreSave";
 import useQuiz from "./hook/useQuiz";
 
 import questions_ from "./data/questions.json";
@@ -13,6 +14,9 @@ import optionsArray from "./data/optionsArray.json";
 
 const App = () => {
   const [gameMode, setGameMode] = useState(false);
+
+  // show save high score modal
+  const [show, setShow] = useState(false);
 
   const memoFn = () => questions_;
 
@@ -42,9 +46,17 @@ const App = () => {
         stats={quizInstance.stats}
         remaining={quizInstance.questions.remaining}
         reset={quizInstance.resetGame}
+        setShow={setShow}
       />
       <Container style={{ minHeight: "70vh" }}>
         <Start gameMode={gameMode} quizInstance={quizInstance} />
+        <ScoreSave
+          setShow={setShow}
+          show={show}
+          stats={quizInstance.stats}
+          reset={quizInstance.resetGame}
+          setGameMode={setGameMode}
+        />
       </Container>
       <Footer />
       <Tabbar
@@ -56,6 +68,7 @@ const App = () => {
         stats={quizInstance.stats}
         remaining={quizInstance.questions.remaining}
         reset={quizInstance.resetGame}
+        setShow={setShow}
       />
     </>
   ); //return
