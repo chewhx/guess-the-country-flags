@@ -1,5 +1,5 @@
 import React from "react";
-import { ListGroup, Container, Row, Col } from "react-bootstrap";
+import { ListGroup, Container, Row, Col, Spinner } from "react-bootstrap";
 import axios from "axios";
 import { countryCodeEmoji } from "country-code-emoji";
 import { useCookies } from "react-cookie";
@@ -9,7 +9,7 @@ const Scoreboard = () => {
   const [scores, setScores] = React.useState([]);
 
   React.useEffect(async () => {
-    const { data } = await axios.get("/.netlify/functions/mongoFind");
+    const { data, status } = await axios.get("/.netlify/functions/mongoFind");
     setScores(data);
   }, []);
 
@@ -18,7 +18,19 @@ const Scoreboard = () => {
       <h1>
         <strong>Scoreboard</strong>
       </h1>
-      {scores.length > 1 && (
+      {scores.length < 1 ? (
+        <div
+          className="d-flex justify-content-center"
+          style={{ height: "50vh" }}
+        >
+          <Spinner
+            animation="border"
+            size="lg"
+            className="align-self-center"
+            style={{ width: "100px", height: "100px" }}
+          />
+        </div>
+      ) : (
         <ListGroup variant="flush">
           {scores.map((each, idx) => (
             <ListGroup.Item
