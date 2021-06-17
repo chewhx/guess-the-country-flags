@@ -40,6 +40,10 @@ export default function Quiz(
 
     setResults([]);
 
+    setIndex(0);
+    setPrevIndex(0);
+    setNextIndex(0);
+
     setStats({
       attempts: 0,
       correct: 0,
@@ -55,18 +59,22 @@ export default function Quiz(
       arr = shuffleArray(arr);
 
       let oldData = [...json];
+
       newData = arr.map((each) => oldData[each]);
+
+      setQuestions({
+        previous: loop ? data[data.length - 1] : null,
+        current: newData[0] || data[0],
+        next: newData[1] || data[1],
+        hasNext: true,
+        hasPrevious: false,
+        total: data.length,
+        remaining: loop ? null : data.length - 1,
+      });
+
       setData(newData);
     }
-    setQuestions({
-      previous: loop ? data[data.length - 1] : null,
-      current: newData[index] || data[index],
-      next: newData[index + 1] || data[index + 1],
-      hasNext: true,
-      hasPrevious: false,
-      total: data.length,
-      remaining: loop ? null : data.length - 1,
-    });
+
     if (loop) {
       setPrevIndex(data.length - 1);
       setNextIndex(1);

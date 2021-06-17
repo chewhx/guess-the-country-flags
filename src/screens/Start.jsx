@@ -28,8 +28,6 @@ const Start = ({ gameMode, quizInstance }) => {
     populateOptions(4);
   }, []);
 
-  console.log(questions.current);
-
   return questions.current === null ? (
     "loading"
   ) : (
@@ -39,28 +37,46 @@ const Start = ({ gameMode, quizInstance }) => {
           <small className="text-muted">
             If you exit page or refresh, game progress is lost.
           </small>
-          <QuizImage
-            src={questions.current.question}
-            showAnswer={questions.current.hasOwnProperty("correct")}
-            correctAnswer={questions.current.correct}
-          />
-          <QuizOptions
-            hidden={!gameMode}
-            options={questions.current.options}
-            checkAnswer={checkAnswer}
-            nextQuestion={nextQuestion}
-          />
-          <QuizImage
-            hidden
-            src={questions.next.question}
-            showAnswer={questions.next.hasOwnProperty("correct")}
-            correctAnswer={questions.next.correct}
-          />
-          <QuizOptions
-            hidden
-            checkAnswer={checkAnswer}
-            nextQuestion={nextQuestion}
-          />
+          {stats.attempts < 196 ? (
+            <>
+              <QuizImage
+                src={questions.current.question}
+                showAnswer={questions.current.hasOwnProperty("correct")}
+                correctAnswer={questions.current.correct}
+              />
+              <QuizOptions
+                hidden={!gameMode}
+                options={questions.current.options}
+                checkAnswer={checkAnswer}
+                nextQuestion={nextQuestion}
+              />
+              {questions.next && (
+                <>
+                  <QuizImage
+                    hidden
+                    src={questions.next.question}
+                    showAnswer={questions.next.hasOwnProperty("correct")}
+                    correctAnswer={questions.next.correct}
+                  />
+                  <QuizOptions
+                    hidden
+                    checkAnswer={checkAnswer}
+                    nextQuestion={nextQuestion}
+                  />
+                </>
+              )}
+            </>
+          ) : (
+            <>
+              <p className="h3 text-center p-4">
+                <strong>END OF GAME</strong>
+              </p>
+              <p className="h3 text-center">
+                That's all the flags we have for you. Great job! Go ahead and
+                submit your score!
+              </p>
+            </>
+          )}
         </Col>
         <Col md={6} className="px-2">
           <Card

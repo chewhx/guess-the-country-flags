@@ -9,7 +9,7 @@ const Scoreboard = () => {
   const [scores, setScores] = React.useState([]);
 
   React.useEffect(async () => {
-    const { data, status } = await axios.get("/.netlify/functions/mongoFind");
+    const { data } = await axios.get("/.netlify/functions/mongoFind");
     setScores(data);
   }, []);
 
